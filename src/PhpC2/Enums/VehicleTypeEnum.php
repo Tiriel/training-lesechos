@@ -1,6 +1,6 @@
 <?php
 
-namespace App\PhpC2;
+namespace App\PhpC2\Enums;
 
 enum VehicleTypeEnum
 {

@@ -2,6 +2,8 @@
 
 namespace App\PhpC2;
 
+use App\PhpC2\Enums\VehicleTypeEnum;
+
 class Vehicle
 {
     public function __construct(

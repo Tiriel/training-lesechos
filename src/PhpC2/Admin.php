@@ -2,6 +2,8 @@
 
 namespace App\PhpC2;
 
+use App\PhpC2\Enums\AdminLevelEnum;
+
 class Admin extends Member
 {
     public function __construct(

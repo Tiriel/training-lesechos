@@ -2,6 +2,8 @@
 
 namespace App\PhpC2;
 
+use App\PhpC2\Interfaces\UserInterface;
+
 class BackofficeUser implements UserInterface
 {
     public function __construct(

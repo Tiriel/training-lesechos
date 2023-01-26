@@ -17,4 +17,9 @@ class NullStorage implements StorageInterface
 
         return true;
     }
+
+    public function toArray(): array
+    {
+        return $this->session;
+    }
 }

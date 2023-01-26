@@ -17,7 +17,8 @@ class Blog
 
     public function handle(Request $request): Response
     {
-        $route = $this->container->get(Router::class)->route($request);
+        $router = $this->container->get(Router::class);
+        $route = $router->route($request);
 
         if ('' === $controller = $route ->getController()) {
             return new Response('', 404);

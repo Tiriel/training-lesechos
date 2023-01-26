@@ -27,7 +27,7 @@ class Container
         $name = $this->getServiceName(Router::class);
 
         return $this->services[$name]
-            ?? $this->services[$name] = new Router($this->AppRoutingUrlGenerator());
+            ?? $this->services[$name] = new Router(Config\ROUTES);
     }
 
     private function AppRoutingUrlGenerator(): UrlGenerator

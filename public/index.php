@@ -1,9 +1,13 @@
 <?php
 
-use App\Kernel;
+require __DIR__.'/vendor/autoload.php';
 
-require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
+use App\Blog;
+use App\Http\Request;
 
-return function (array $context) {
-    return new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
-};
+$request = Request::create();
+
+$app = new Blog();
+
+$response = $app->handle($request);
+$response->send();

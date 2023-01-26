@@ -17,7 +17,7 @@ class Member extends AbstractUser implements UserInterface, AuthInterface
         protected ?int $age = null
     ) {
         ++static::$counter;
-        $this->storage->set('login', $this->login);
+        $this->storage->set('login', $this->login ?? '');
     }
 
     public function __destruct()

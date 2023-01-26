@@ -46,7 +46,7 @@ class StepIterator implements \Iterator
 
 $data = range(1, 100);
 
-$iterator = new StepIterator(new StepIterator($data, 3), 4);
+$iterator = new StepIterator($data, 3);
 
 foreach ($iterator() as $k => $v) {
     echo $k . " => ".$v;

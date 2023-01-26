@@ -47,7 +47,11 @@ $car->startEngine();
 $storage = new ChainStorage([new SessionStorage(), new RedisStorage(new Redis()), new NullStorage()]);
 $member = new ProxyMember(new Member($storage));
 
-$dbStorage = new DbStorage(new class{});
+$dbStorage = new DbStorage(new class{
+    public function select(): string {
+        return '';
+    }
+});
 
 $dbStorage->get('foo');
 

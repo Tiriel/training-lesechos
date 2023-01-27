@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Config\Config;
 use App\Controller\BaseController;
+use App\Http\{Request, RequestStack};
 use App\Db\{Connection, Query};
 use App\Templating\Templater;
 use App\Routing\{Router, UrlGenerator, Route};
@@ -18,16 +20,38 @@ class Container
         return $this->$service();
     }
 
+    public function getController(string $controller): BaseController
+    {
+        $controller = 'App\\Controller\\' . ucfirst($controller) . 'Controller';
+
+        return $this->services[$controller]
+            ?? $this->services[$controller] = new $controller($this->AppTemplatingTemplater());
+    }
+
+    public static function create(): static
+    {
+        return new static();
+    }
+
     private function getServiceName(string $className): string
     {
-        return strtr($className, '\\', '');
+        return str_ireplace('\\', '', $className);
     }
+
+    private function AppHttpRequestStack(): RequestStack
+    {
+        $name = $this->getServiceName(RequestStack::class);
+
+        return $this->services[$name]
+            ?? $this->services[$name] = new RequestStack();
+    }
+
     private function AppRoutingRouter(): Router
     {
         $name = $this->getServiceName(Router::class);
 
         return $this->services[$name]
-            ?? $this->services[$name] = new Router(Config\ROUTES);
+            ?? $this->services[$name] = new Router(Config::getRoutes());
     }
 
     private function AppRoutingUrlGenerator(): UrlGenerator
@@ -44,13 +68,7 @@ class Container
         $name = $this->getServiceName(Templater::class);
 
         return $this->services[$name]
-            ?? $this->services[$name] = new Templater();
-    }
-
-    public function getController(string $className): BaseController
-    {
-        return $this->services[$className]
-            ?? $this->services[$className] = new $className($this->AppTemplatingTemplater());
+            ?? $this->services[$name] = new Templater(Config::getTemplateContext());
     }
 
     private function AppDbConnection(): Connection
@@ -67,10 +85,5 @@ class Container
 
         return $this->services[$name]
             ?? $this->services[$name] = new Query($this->AppDbConnection());
-    }
-
-    public static function create(): static
-    {
-        return new static();
     }
 }

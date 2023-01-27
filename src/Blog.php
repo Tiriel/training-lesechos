@@ -3,7 +3,9 @@
 namespace App;
 
 use App\Http\Request;
+use App\Http\RequestStack;
 use App\Http\Response;
+use App\Routing\Route;
 use App\Routing\Router;
 
 class Blog
@@ -18,13 +20,17 @@ class Blog
     public function handle(Request $request): Response
     {
         $router = $this->container->get(Router::class);
-        $route = $router->route($request);
+        $this->container->get(RequestStack::class)->push($request);
 
-        if ('' === $controller = $route ->getController()) {
+        /** @var Route $route */
+        $route = $router->route($request);
+        if ('' === $controller = $route->getController()) {
             return new Response('', 404);
         }
+
+        $controller = $this->container->getController($controller);
         $action = $route->getAction();
 
-        return $controller->$action($request, ...$route->getArgs());
+        return $controller->$action(...$request->getAttributes());
     }
 }

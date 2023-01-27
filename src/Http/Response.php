@@ -7,7 +7,7 @@ class Response
     public function __construct(
         private string $content,
         private string $code,
-        private ?array $headers = null
+        private array $headers = []
     ) {}
 
     public function getContent(): string
@@ -34,14 +34,20 @@ class Response
 
     public function sendContent(): void
     {
-        ob_start();
         echo $this->content;
-        ob_get_clean();
     }
 
-    public function send(): void
+    public function send(): never
     {
         $this->sendHeaders();
         $this->sendContent();
+
+        if (\function_exists('fastcgi_finish_request')) {
+            fastcgi_finish_request();
+        } elseif (\PHP_SAPI !== 'cli') {
+            ob_get_flush();
+        }
+
+        exit(0);
     }
 }

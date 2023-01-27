@@ -14,7 +14,7 @@ class Route
         private readonly ?array $defaults = null,
         private readonly ?array $methods = null
     ) {
-        [$this->controller, $this->action] = explode('_', $this->name, 2);
+        [$this->controller, $this->action] = PathUtils::splitName($this->name);
     }
 
     public function getName(): string

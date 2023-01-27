@@ -15,9 +15,9 @@ class Request
         public array $server = []
     ) {
         $this->server = array_change_key_case($this->server);
-        $this->path = $this->server['path_info'];
+        $this->path = $this->server['request_uri'];
         $this->method = $this->server['request_method'] ?? '';
-        $this->isHttps = (bool) $this->server['https'];
+        $this->isHttps = (bool) ($this->server['https'] ?? false);
 
         foreach ($this->server as $key => $value) {
             if (str_starts_with($key, 'http_')) {

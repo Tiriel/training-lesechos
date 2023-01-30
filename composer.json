@@ -12,8 +12,5 @@
             "name": "Benjamin Zaslavsky",
             "email": "benjamin.zaslavsky@gmail.com"
         }
-    ],
-    "require": {
-        "twig/twig": "^3.5"
-    }
+    ]
 }

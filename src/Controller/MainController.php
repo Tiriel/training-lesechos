@@ -8,19 +8,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
-    #[Route('', name: 'app_main_index')]
+    #[Route('', name: 'app_main_index', methods: ['GET'])]
     public function index(): Response
     {
         return $this->render('main/index.html.twig', [
-            'controller_name' => 'MainController',
+            'controller_name' => 'Index',
         ]);
     }
 
-    #[Route('/contact', name: 'app_main_contact')]
+    #[Route('/contact', name: 'app_main_contact', methods: ['GET'])]
     public function contact(): Response
     {
         return $this->render('main/contact.html.twig', [
-            'controller_name' => 'MainController',
+            'controller_name' => 'Contact',
         ]);
     }
 }

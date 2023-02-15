@@ -14,13 +14,18 @@
             {% block navbar %}
                 {{ include('includes/_navbar.html.twig', {current: app.request.attributes.get('_route')}, with_context = false) }}
             {% endblock %}
+            {% block header %}
+            {% endblock %}
         </header>
-        <main class="pt-5">
-            {% block body %}{% endblock %}
-        </main>
-    <aside>
-        {{ render_esi(controller('App\\Controller\\MovieController::decades')) }}
-    </aside>
+        <div class="row">
+            <aside class="col-2"></aside>
+            <main class="container pt-5 col-8">
+                {% block body %}{% endblock %}
+            </main>
+            <aside class="col-2">
+                {{ render_esi(controller('App\\Controller\\MovieController::decades')) }}
+            </aside>
+        </div>
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}

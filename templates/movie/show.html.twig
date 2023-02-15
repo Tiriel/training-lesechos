@@ -12,7 +12,7 @@
         <li>Released at : {{ movie.releasedAt|date('d F Y') }}</li>
         <li>Genre :
             <ul>
-            {{ movie.genre|map(name => '<li>'~ name ~'</li>')|join('')|raw }}
+            {{ movie.genre|map(genre => genre.name)|join(', ') }}
             </ul>
         </li>
     </ul>

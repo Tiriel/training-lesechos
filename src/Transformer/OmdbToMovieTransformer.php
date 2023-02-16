@@ -16,6 +16,8 @@ class OmdbToMovieTransformer implements \Symfony\Component\Form\DataTransformerI
             ->setPoster($value['Poster'])
             ->setPlot($value['Plot'])
             ->setReleasedAt(new \DateTimeImmutable($date))
+            ->setImdbId($value['imdbID'])
+            ->setRated($value['Rated'])
             ->setPrice(500);
 
         return $movie;

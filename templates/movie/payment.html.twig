@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Movie :{{ movie.title ?? 'Not found' }}{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <h1>Payment</h1>
+    <p>{{ paid }}</p>
+</div>
+{% endblock %}

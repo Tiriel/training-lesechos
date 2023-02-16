@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Payment\PaymentFactory;
 use App\Repository\MovieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,6 +24,16 @@ class MovieController extends AbstractController
     {
         return $this->render('movie/show.html.twig', [
             'movie' => $repository->find($id),
+        ]);
+    }
+
+    #[Route('/payment/{paymentType}', name: 'app_movie_payment', methods: ['GET'])]
+    public function payment(string $paymentType, PaymentFactory $factory): Response
+    {
+        $paid = $factory->pay($paymentType);
+
+        return $this->render('movie/payment.html.twig', [
+            'paid' => $paid,
         ]);
     }
 

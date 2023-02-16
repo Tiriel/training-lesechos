@@ -1,15 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BookController!{% endblock %}
+{% block title %}Book : {{ book.title ?? 'Not found' }}{% endblock %}
 
 {% block body %}
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="example-wrapper">
+        <h1>Movie : {{ book.title }}</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/benjamin/Dev/sl/formations/training-lesechos/src/Controller/BookController.php'|file_link(0) }}">src/Controller/BookController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/benjamin/Dev/sl/formations/training-lesechos/templates/book/index.html.twig'|file_link(0) }}">templates/book/index.html.twig</a></code></li>
-    </ul>
-</div>
+        <ul>
+            <li>Id : {{ book.id }}</li>
+            <li>Released at: {{ book.releasedAt|date('Y M d') }}</li>
+            <li>Author : {{ book.author }}</li>
+            <li>Price : {{ book.price }}</li>
+        </ul>
+    </div>
 {% endblock %}

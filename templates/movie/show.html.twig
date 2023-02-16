@@ -7,24 +7,24 @@
     {% if movie.title %}
     <h1>Movie : {{ movie.title }}</h1>
 
-    <ul>
-        <li>Id : {{ movie.id }}</li>
-        <li>Released at : {{ movie.releasedAt|date('d F Y') }}</li>
-        <li>Genre :
-            <ul>
-            {{ movie.genre|map(genre => genre.name)|join(', ') }}
-            </ul>
-        </li>
-    </ul>
-        <section class="row">
+    <article class="pt-5">
+        <img src="{{ movie.poster }}" alt="{{ movie.title }}" class="float-end">
+        <ul>
+            <li>Id : {{ movie.id }}</li>
+            <li>Released at : {{ movie.releasedAt|date('d F Y') }}</li>
+            <li>Genre : {{ movie.genre|map(genre => genre.name)|join(', ') }}</li>
+            {#<li>Genre : {{ movie.genre|reduce((carry, genre) => carry == '' ? genre.name : carry ~ ', ' ~ genre.name) }}</li>#}
+        </ul>
+    </article>
+        <section class="row pt-5">
             <div class="col-md-6">
                 <form method="get" action="{{ path('app_movie_payment', {'paymentType': 'stripe'}) }}">
-                    <button class="btn">Stripe</button>
+                    <button class="btn btn-secondary">Stripe</button>
                 </form>
             </div>
             <div class="col-md-6">
                 <form method="get" action="{{ path('app_movie_payment', {'paymentType': 'paypal'}) }}">
-                    <button class="btn">Paypal</button>
+                    <button class="btn btn-secondary">Paypal</button>
                 </form>
             </div>
         </section>

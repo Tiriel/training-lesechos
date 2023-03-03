@@ -43,6 +43,9 @@ class Movie
     #[ORM\Column(length: 10, nullable: true)]
     private ?string $rated = null;
 
+    #[ORM\ManyToOne(inversedBy: 'movies')]
+    private ?User $createdBy = null;
+
     public function __construct()
     {
         $this->genre = new ArrayCollection();
@@ -169,6 +172,18 @@ class Movie
     public function setRated(?string $rated): self
     {
         $this->rated = $rated;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }

@@ -4,8 +4,10 @@ namespace App\Provider;
 
 use App\Consumer\OmdbApiConsumer;
 use App\Entity\Movie;
+use App\Entity\User;
 use App\Repository\MovieRepository;
 use App\Transformer\OmdbToMovieTransformer;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 class MovieProvider
@@ -17,6 +19,7 @@ class MovieProvider
         protected OmdbToMovieTransformer $transformer,
         protected MovieRepository $repository,
         protected GenreProvider $genreProvider,
+        protected Security $security
     ) {}
 
     public function setIo(SymfonyStyle $io): void
@@ -48,6 +51,11 @@ class MovieProvider
         $movie = $this->transformer->transform($data);
         foreach ($this->genreProvider->getGenresByString($data['Genre']) as $genre) {
             $movie->addGenre($genre);
+        }
+        if (($user = $this->security->getUser()) instanceof User) {
+            /** @var User $user */
+            $movie->setCreatedBy($user);
+            $user->addMovie($movie);
         }
 
         $this->repository->save($movie, true);

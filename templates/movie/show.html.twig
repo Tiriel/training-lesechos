@@ -9,10 +9,15 @@
 
     <article class="pt-5">
         <img src="{{ movie.poster }}" alt="{{ movie.title }}" class="float-end">
-        <ul>
-            <li>Id : {{ movie.id }}</li>
-            <li>Released at : {{ movie.releasedAt|date('d F Y') }}</li>
-            <li>Genre : {{ movie.genre|map(genre => genre.name)|join(', ') }}</li>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Id : {{ movie.id }}</li>
+            <li class="list-group-item">Imdb Id : {{ movie.imdbId }}</li>
+            <li class="list-group-item">Rated : {{ movie.rated }}</li>
+            <li class="list-group-item">Released at : {{ movie.releasedAt|date('d F Y') }}</li>
+            <li class="list-group-item">Country : {{ movie.country }}</li>
+            <li class="list-group-item">Plot : {{ movie.plot }}</li>
+            <li class="list-group-item">Genre : {{ movie.genre|map(genre => genre.name)|join(', ') }}</li>
+            <li class="list-group-item">Price : {{ (movie.price/100) ~'€'|default('-') }}</li>
             {#<li>Genre : {{ movie.genre|reduce((carry, genre) => carry == '' ? genre.name : carry ~ ', ' ~ genre.name) }}</li>#}
         </ul>
     </article>

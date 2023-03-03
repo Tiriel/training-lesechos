@@ -6,6 +6,7 @@ use App\Consumer\OmdbApiConsumer;
 use App\Payment\PaymentFactory;
 use App\Provider\MovieProvider;
 use App\Repository\MovieRepository;
+use App\Security\Voter\MovieVoter;
 use App\Transformer\OmdbToMovieTransformer;
 //use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_MODERATOR')]
+//#[IsGranted('ROLE_MODERATOR')]
 #[Route('/movie')]
 class MovieController extends AbstractController
 {
@@ -28,8 +29,11 @@ class MovieController extends AbstractController
     #[Route('/{id<\d+>}', name: 'app_movie_show')]
     public function show(int $id, MovieRepository $repository): Response
     {
+        $movie = $repository->find($id);
+        $this->denyAccessUnlessGranted(MovieVoter::VIEW, $movie);
+
         return $this->render('movie/show.html.twig', [
-            'movie' => $repository->find($id),
+            'movie' => $movie,
         ]);
     }
 
@@ -37,6 +41,7 @@ class MovieController extends AbstractController
     public function omdb(string $title, MovieProvider $provider): Response
     {
         $movie = $provider->getMovieByTitle($title);
+        $this->denyAccessUnlessGranted(MovieVoter::VIEW, $movie);
 
         return $this->render('movie/show.html.twig', [
             'movie' => $movie

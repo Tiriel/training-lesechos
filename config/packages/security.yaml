@@ -3,6 +3,17 @@ security:
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+    role_hierarchy:
+        ROLE_USER: ~
+        ROLE_MODERATOR: ROLE_USER
+        ROLE_PROVIDER: ROLE_USER
+        ROLE_ADMIN:
+            - ROLE_MODERATOR
+            - ROLE_PROVIDER
+
+    access_decision_manager:
+        strategy: affirmative # priority, unanimous, consensus
+        allow_if_all_abstain: false
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         app_admin_provider:
@@ -23,7 +34,11 @@ security:
         main:
             lazy: true
             provider: app_all_users_provider
-            custom_authenticator: App\Security\AppLoginFormAuthenticator
+#            custom_authenticator: App\Security\AppLoginFormAuthenticator
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
             logout:
                 path: app_logout
                 # where to redirect after logout
@@ -38,7 +53,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+#        - { path: ^/$, roles: PUBLIC_ACCESS }
+#        - { path: ^/login, roles: PUBLIC_ACCESS }
+#        - { path: ^/, roles: IS_AUTHENTICATED_FULLY, allow_if: 'request.isXmlHttpRequest()'] }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

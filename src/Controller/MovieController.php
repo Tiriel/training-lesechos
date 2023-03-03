@@ -7,10 +7,13 @@ use App\Payment\PaymentFactory;
 use App\Provider\MovieProvider;
 use App\Repository\MovieRepository;
 use App\Transformer\OmdbToMovieTransformer;
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('ROLE_MODERATOR')]
 #[Route('/movie')]
 class MovieController extends AbstractController
 {

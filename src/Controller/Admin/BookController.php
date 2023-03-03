@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Book;
+use App\Entity\User;
 use App\Form\BookType;
 use App\Repository\BookRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,6 +30,9 @@ class BookController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser() instanceof User) {
+                $book->setCreatedBy($this->getUser());
+            }
             $bookRepository->save($book, true);
             dump($book->getId());
 
